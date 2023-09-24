@@ -1,0 +1,105 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>"ವೃತ್ರ" — Kannada (ಅರ್ಥ) to English meaning of "ವೃತ್ರ."</title>
+  <meta name="description" value="ವೃತ್ರ ಅರ್ಥ / English meaning of ವೃತ್ರ. Free Kannada-English dictionary.">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+
+  <link rel="image_src" href="https://alar.ink/static/thumb.png">
+  <meta property="og:image" content="https://alar.ink/static/thumb.png">
+  <link rel="shortcut icon" href="https://alar.ink/static/favicon.png" type="image/x-icon">
+
+  <link href="/static/flexit.css" rel="stylesheet" type="text/css">
+  <link href="/static/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="">
+  <div class="container wrap">
+    <header class="header">
+      <div class="row">
+        <div class="logo four columns">
+          <a href="/"><img src="/static/logo.svg" alt="Alar logo" title="Alar: Kannada - English dictionary"></a>
+          <div class="taglines">
+            <p class="tagline-native">
+              ಶ್ರೀ. ವಿ. ಕೃಷ್ಣ ಅವರ ಕನ್ನಡ - ಇಂಗ್ಲಿಷ್ ನಿಘಂಟು
+            </p>
+            <p class="tagline-english">
+              <strong><em>“Alar”</em></strong> V. Krishna's Kannada
+              → English dictionary
+            </p>
+          </div>
+        </div>
+
+        <div class="search eight columns">
+          <form class="search-form" method="get" action="/dictionary/english/kannada">
+            <div>
+              <input autofocus="" autocomplete="off" placeholder="eg: ಹೆಸರು, hesaru" type="text" id="searchword" name="searchword"
+                value="{{ data.search_query }}">
+                <input type="hidden" name="model" value="{{ data.model }}" />
+              <button type="submit"><img src="/static/search.svg" alt="Search"></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </header>
+
+
+    <section class="content results">
+      <ol class="entries">
+        {% for entry in data.entries %}
+        <li class="entry" data-guid="{{ entry.guid }}">
+          <header class="head">
+            <h3 class="title">{{ entry.content }}</h3>
+            <span class="pronun">♪ {{ entry.phones }}</span>
+          </header>
+
+          <ol class="defs">
+            <!-- {% set prevTypes = "" %} -->
+            {% for d in entry.relations %}
+            <!-- {% set types = d.relation_types %} -->
+            <!-- {% if prevTypes != types %} -->
+            <!-- <div class="types"> -->
+            <!-- <span>{{ types }} PrevTypes: {{ prevTypes }}</span> -->
+            <!-- </div> -->
+            <!-- {% endif %} -->
+            <li>
+              <div data-guid="{{ d.guid }}" class="def">
+                {{ d.content }}
+                <span class="types">({{ d.relation_types }})
+                {{ '{:.3f}'.format(d.relatedness) }}</span>
+              </div>
+            </li>
+            <!-- {% set prevTypes = d.relation_types %} -->
+            {% endfor %}
+          </ol>
+        </li>
+        {% endfor %}
+      </ol>
+
+    </section>
+
+
+    <div id="fakelog"></div>
+    <nav class="nav">
+      <a href="/glossary/kannada/english/ಅ">ಪದಕೋಶ (Glossary)</a>
+      <a href="/pages/about">ಬಗ್ಗೆ (About)</a>
+    </nav>
+  </div>
+  <footer class="footer">
+    Data © V. Krishna <span class="slash">•</span>
+    <a href="https://github.com/knadh/dictmaker">built with dictmaker</a> <span class="slash">•</span>
+    supported by
+    <a href="https://zerodha.tech/blog/alar-the-making-of-an-open-source-dictionary/" class="credit"><img
+        src="https://zerodha.com/static/images/logo.svg" alt="Zerodha"></a>
+  </footer>
+  <script src="/static/autocomplete.js"></script>
+  <script src="/static/global.js"></script>
+
+
+
+
+</body>
+
+</html>
