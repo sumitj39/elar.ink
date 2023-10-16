@@ -1,10 +1,12 @@
 from typing import List
-import utils
+
 import openai
 import tiktoken
 from scipy import spatial
 from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer
+
+import utils
 
 
 def cosine_similarity(a, b):
@@ -100,12 +102,11 @@ class GTEEmbedding(EmbeddingBase):
     def get_embeddings(self, texts: List[str]) -> List[List[float]]:
         from multiprocessing import Pool, cpu_count
 
-        batch_size = 1000
+        batch_size = 2000
         batches = [texts[i : i + batch_size] for i in range(0, len(texts), batch_size)]
 
-        max_workers = min(
-            5, cpu_count()
-        )  # Limit the workers to 5 or available CPUs, whichever is less
+        # Limit the workers to 6 or available CPUs, whichever is less
+        max_workers = min(6, cpu_count())
 
         with Pool(max_workers) as pool:
             results = pool.map(self._encode_batch, batches)

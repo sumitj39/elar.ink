@@ -1,3 +1,4 @@
+import datetime
 import os
 import re
 
@@ -23,7 +24,10 @@ class DataCleaningUtils:
     def split_on_semicolon(s: str) -> list:
         # Given a string, split it on semicolons and return a list of the parts
         parts = s.split(";")
-        return [part.strip() for part in parts if part.strip()]
+        parts = [part.strip() for part in parts if part.strip()]
+        # if the word end contains a full stop, remove it
+        parts = [part[:-1] if part.endswith(".") else part for part in parts]
+        return parts
 
 
 class Dataset:
@@ -63,13 +67,12 @@ def create_embeddings(df, embedding_provider: str, model_name: str):
     if embedding_provider == "gte":
         embedding_service = GTEEmbedding(
             model_name=model_name
-        )  # TODO find a better way to send model name
+        )
+         # TODO find a better way to send model name
         print("Using GTEEmbedding")
     else:
         # By default use OpenAI
-        embedding_service = OpenAIEmbedding(
-            api_key=os.environ.get("OPENAI_API_KEY")
-        )
+        embedding_service = OpenAIEmbedding(api_key=os.environ.get("OPENAI_API_KEY"))
         print("Using OpenAIEmbedding")
 
     contents = list(df["content"].array)
@@ -79,20 +82,22 @@ def create_embeddings(df, embedding_provider: str, model_name: str):
     print(f"Total tokens to be used: {tokens}, amount: {amount}$ proceed? ")
     # input()
     embeddings = embedding_service.get_embeddings(contents)
-    return pd.DataFrame({"id": ids, "embedding": embeddings, "content": contents})
+    return pd.DataFrame({"id": ids, "embedding": embeddings})
 
 
 def create_and_save_embeddings(n: int = 100):
     dataset = Dataset()
     print("Getting data from database...")
     df = dataset.get_data()
+    if n:
+        df = df.sample(n=n)
     print(f"Creating embeddings for {len(df)} samples...")
-    df = df.sample(n=n)
 
     df_gte = create_embeddings(
-        df, embedding_provider="gte", model_name="./models/thenlper_gte-base/"
+        df, embedding_provider="gte", model_name="thenlper/gte-small"
     )
-    fname = "embeddings-data-gte-base-all.csv"
+    date = datetime.datetime.now().strftime("%d-%b-%Y")
+    fname = f"embeddings-data-gte-small-{date}.csv"
     print(f"Saving embeddings to csv file... {fname}")
     # save it to a csv file embeddings-data.csv
     df_gte.to_csv(fname, index=False)

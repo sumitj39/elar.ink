@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="content about">
+    <h1>About</h1>
+    <p>
+        This is an English to Kannada dictionary, powered by Alar Data.
+        <em>Alar</em> is an authoritative Kannada-English dictionary corpus
+        created by V. Krishna. It contains over 150,000 Kannada words
+        with over 240,000 English definitions.
+
+        The Alar dictionary was released by Zerodha team, and is available <a href="https://alar.ink">here</a>.
+        <a href="https://zerodha.tech/blog/alar-the-making-of-an-open-source-dictionary">Read the full story
+            here</a>.
+        This dictionary is created by using The alar dataset, for the lookup of English to Kannada words we use word
+        embeddings.
+
+
+    </p>
+    <hr />
+
+    <h3>Data</h3>
+    <p>
+        The entire corpus (&copy; V. Krishna) is available on the <a href="https://github.com/alar-dict">Alar
+            repository</a>.
+        It is licensed under <a href="https://opendatacommons.org/licenses/odbl/summary/index.html">ODC-ODbL</a>.
+    </p>
+
+    <h3>Website</h3>
+    <p>
+        This website is published using <a href="https://github.com/knadh/dictmaker">dictmaker</a>,
+        and uses <a href="https://github.com/knadh/knphone">knphone</a>, a Kannada phonetic
+        indexing algorithm, for search. Search suggestions and transliterations are powered by <a
+            href="https://github.com/varnamproject">Varnam</a>.
+    </p>
+    <p>
+        This is a work in progress project, free for use for everyone.
+        Technical feedback can be sent to <a href="mailto:sumitj39&#064;outlook.com">sumitj39&#064;outlook.com</a>.
+    </p>
+</section>
+{% endblock %}

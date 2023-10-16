@@ -1,8 +1,8 @@
 import os
 import time
 
+from prometheus_client import REGISTRY, Histogram
 from sqlalchemy import create_engine
-from prometheus_client import Histogram, REGISTRY
 
 
 def bypass_https():
@@ -20,7 +20,9 @@ def bypass_https():
 
 
 def get_db_engine():
-    DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://alaradmin:protected@localhost:5432/alardict")
+    DATABASE_URL = os.environ.get(
+        "DATABASE_URL", "postgresql://alaradmin:protected@localhost:5432/alardict"
+    )
     return create_engine(DATABASE_URL)
 
 
@@ -28,11 +30,14 @@ from prometheus_client import Histogram
 
 METRICS = {}  # Store created metrics
 
+
 class timed:
     def __init__(self, metric_name):
         if metric_name not in METRICS:
             # Create a new histogram for this metric_name
-            METRICS[metric_name] = Histogram(metric_name, f'Time spent in {metric_name}')
+            METRICS[metric_name] = Histogram(
+                metric_name, f"Time spent in {metric_name}"
+            )
         self.metric = METRICS[metric_name]
 
     # For use as a context manager
@@ -48,4 +53,5 @@ class timed:
         def wrapper(*args, **kwargs):
             with self:
                 return func(*args, **kwargs)
+
         return wrapper
