@@ -20,9 +20,8 @@ def bypass_https():
 
 
 def get_db_engine():
-    DATABASE_URL = os.environ.get(
-        "DATABASE_URL", "postgresql://alaradmin:protected@localhost:5432/alardict"
-    )
+    # Database url is of the format "postgresql://<username>:<password>@<hostname>:<port>/<dbname>"
+    DATABASE_URL = os.environ.get("DATABASE_URL")
     return create_engine(DATABASE_URL)
 
 
